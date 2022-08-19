@@ -7,6 +7,7 @@ enum Status { waiting, error }
 class VerifyNumberScreen extends StatefulWidget {
   const VerifyNumberScreen({Key? key, required this.number}) : super(key: key);
   final String number;
+
   @override
   State<VerifyNumberScreen> createState() => _VerifyNumberScreenState();
 }

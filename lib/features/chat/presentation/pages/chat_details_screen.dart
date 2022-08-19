@@ -1,4 +1,3 @@
-import 'package:bagi_chat/core/utils/utils.dart';
 import 'package:bagi_chat/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,12 +7,15 @@ import 'package:flutter_chat_bubble/bubble_type.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_6.dart';
 
+import '../../../../core/common/data.dart';
+
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen(
-      {Key? key, required this.friendUid, required this.friendName})
+      {Key? key, required this.friendUid, required this.friendName,this.image})
       : super(key: key);
   final String friendUid;
   final String friendName;
+  final String? image;
 
   @override
   State<ChatDetailScreen> createState() => _ChatDetailScreenState();
@@ -33,30 +35,33 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   void checkUser() async {
     await chats
-        .where('users', isEqualTo: {widget.friendUid: null, currentUserId: null})
+        .where('users',
+            isEqualTo: {widget.friendUid: null, currentUserId: null})
         .limit(1)
         .get()
         .then(
           (QuerySnapshot querySnapshot) async {
-        if (querySnapshot.docs.isNotEmpty) {
-          setState(() {
-            chatDocId = querySnapshot.docs.single.id;
-          });
-        } else {
-          await chats.add({
-            'users': {currentUserId: null, widget.friendUid: null},
-            'names': {currentUserId: FirebaseAuth.instance.currentUser?.displayName,
-              widget.friendUid: widget.friendName}
-          }).then((value) => {chatDocId = value});
-        }
-      },
-    )
+            if (querySnapshot.docs.isNotEmpty) {
+              setState(() {
+                chatDocId = querySnapshot.docs.single.id;
+              });
+            } else {
+              await chats.add({
+                'users': {currentUserId: null, widget.friendUid: null},
+                'names': {
+                  currentUserId: FirebaseAuth.instance.currentUser?.displayName,
+                  widget.friendUid: widget.friendName
+                }
+              }).then((value) => {chatDocId = value});
+            }
+          },
+        )
         .catchError((error) {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return  CupertinoPageScaffold(
+    return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         trailing: CupertinoButton(
             onPressed: () {},
@@ -66,11 +71,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         middle: Text(widget.friendName),
       ),
       child: StreamBuilder<QuerySnapshot>(
-          stream: chats.doc(chatDocId)
+          stream: chats
+              .doc(chatDocId)
               .collection("messages")
               .orderBy("createdOn", descending: true)
               .snapshots(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasError) {
               return const Center(
                 child: Text("Something went wrong"),
@@ -88,16 +95,20 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                   child: Column(
                 children: [
                   Expanded(
-                      child: ListView.separated(reverse: true,
-                        itemBuilder: (BuildContext context, int index) {
-                        var data = snapshot.data?.docs[index].data() as Map<String, dynamic>;
+                      child: Container(
+                        color: Colors.white,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.only(bottom: 20),
+                    reverse: true,
+                    itemBuilder: (BuildContext context, int index) {
+                        var data = snapshot.data?.docs[index].data()
+                            as Map<String, dynamic>;
                         return Padding(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
                           child: ChatBubble(
                             clipper: ChatBubbleClipper6(
                               nipSize: 0,
-                              radius: 25,
+                              radius: 15,
                               type: isSender(data['uid'].toString())
                                   ? BubbleType.sendBubble
                                   : BubbleType.receiverBubble,
@@ -116,16 +127,15 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(data['msg'],
                                           style: TextStyle(
-                                              color: isSender(
-                                                  data['uid'].toString())
-                                                  ? Colors.white
-                                                  : Colors.black),
+                                              color:
+                                                  isSender(data['uid'].toString())
+                                                      ? Colors.white
+                                                      : Colors.black),
                                           maxLines: 100,
                                           overflow: TextOverflow.ellipsis)
                                     ],
@@ -136,15 +146,16 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                     children: [
                                       Text(
                                         data['createdOn'] == null
-                                            ? dateToHour(DateTime.now())
-                                            : dateToHour(data['createdOn'].toDate()),
+                                            ? DataTime.dateToHour(DateTime.now())
+                                            : DataTime.dateToHour(
+                                                data['createdOn'].toDate()),
                                         style: TextStyle(
                                             fontSize: 10,
-                                            color: isSender(
-                                                data['uid'].toString())
-                                                ? Colors.white
-                                                : Colors.black),
-                                      )
+                                            color:
+                                                isSender(data['uid'].toString())
+                                                    ? Colors.white
+                                                    : Colors.black),
+                                      ),
                                     ],
                                   )
                                 ],
@@ -152,21 +163,43 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                             ),
                           ),
                         );
-                        },
-                        separatorBuilder: (BuildContext context, int index)=>
-                        const SizedBox(height: 10,),
-                        itemCount: snapshot.data?.docs.length??0,)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                          child: CupertinoTextField(
-                            onSubmitted: (v)=>sendMessage(v),
-                        controller: _textController)),
-                      CupertinoButton(
-                          onPressed: () => sendMessage(_textController.text),
-                          child: Icons.send_sharp.icon)
-                    ],
+                    },
+                    separatorBuilder: (BuildContext context, int index) =>
+                          const SizedBox(
+                        height: 0,
+                    ),
+                    itemCount: snapshot.data?.docs.length ?? 0,
+                  ),
+                      )),
+                  Container(
+                    color: Colors.black12.withOpacity(0.03),
+                    padding: const EdgeInsets.all(15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                            child: SizedBox(
+                              height: 40,
+                              child: CupertinoTextField(
+                                  placeholder: "write something ..",
+                                  maxLines: null,
+                                  onSubmitted: (v) => sendMessage(v),
+                                  controller: _textController),
+                            )),
+                        const SizedBox(
+                          width: 30,
+                        ),
+                        GestureDetector(
+                          onTap: () => _textController.text.isEmpty
+                              ? null
+                              : sendMessage(_textController.text),
+                          child: const Icon(
+                            Icons.send,
+                            color: Colors.green,
+                          ),
+                        )
+                      ],
+                    ),
                   )
                 ],
               ));
@@ -187,16 +220,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     });
   }
 
-  String intToDigits(int value){
-    if(value<=9) return "0$value";
-    return "$value";
-  }
-
-  String dateToHour (DateTime dateTime){
-    var time = dateTime.toLocal();
-    return "${intToDigits(time.hour)}"
-        ":${intToDigits(time.minute)}";
-  }
 
   bool isSender(String friend) {
     return friend == currentUserId;
@@ -208,5 +231,4 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     }
     return Alignment.topLeft;
   }
-
 }
