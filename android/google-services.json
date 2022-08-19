@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "402441537356",
+    "project_id": "bagichat-applance",
+    "storage_bucket": "bagichat-applance.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:402441537356:android:343c3500d9ab17449a31e9",
+        "android_client_info": {
+          "package_name": "org.applance.bagichat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "402441537356-geqr5t0lm2c48gimci9rsfoo7afc36lt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOr-YuF9-0kHVt93sMKBFZyoZI9hQqVrg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "402441537356-geqr5t0lm2c48gimci9rsfoo7afc36lt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
