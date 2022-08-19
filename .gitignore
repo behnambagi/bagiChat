@@ -1,0 +1,13 @@
+
+.idea/modules.xml
+.idea/libraries/Dart_SDK.xml
+.idea/libraries/Dart_Packages.xml
+.idea/bagiChat.iml
+.idea/libraries/Flutter_Plugins.xml
+.flutter-plugins
+.dart_tool/package_config_subset
+.dart_tool/package_config.json
+.dart_tool/version
+.idea/vcs.xml
+.packages
+.flutter-plugins-dependencies
