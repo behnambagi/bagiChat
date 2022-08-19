@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../../../../core/common/data.dart';
+
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({Key? key}) : super(key: key);
 
@@ -29,6 +31,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
         slivers: [
           const CupertinoSliverNavigationBar(
             largeTitle: Text("Chats"),
+            automaticallyImplyLeading: false,
           ),
           SliverList(
               delegate: SliverChildListDelegate(
@@ -45,16 +48,20 @@ class _ChatsScreenState extends State<ChatsScreen> {
                 ),
                 title: Text(e['friendName']),
                 subtitle: Text(e['msg']),
+                trailing: Text(DataTime.dateToHour(
+                    e['time'].toDate())),
                 onTap: () => Navigator.push(
                     context,
                     CupertinoPageRoute(
                         builder: (context) => ChatDetailScreen(
                               friendName: e['friendName'],
                               friendUid: e['friendUid'],
-                            ))));
+                          image: pic),
+                            )));
           }).toList()))
         ],
       );
     });
   }
+
 }
