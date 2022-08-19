@@ -42,9 +42,9 @@ class PeopleScreen extends StatelessWidget {
           child: Observer(
             builder: (context) {
               return FirestoreListView<Map<String, dynamic>>(
-                query:FirebaseFirestore.instance.collection('users')
-                    .where('name', isGreaterThanOrEqualTo: userState.searchUser)
-                  .where('name', isGreaterThanOrEqualTo: '${userState.searchUser}\uf7ff'),
+                query:FirebaseFirestore.instance.collection('users'),
+                  //   .where('name', isGreaterThanOrEqualTo: userState.searchUser)
+                  // .where('name', isGreaterThanOrEqualTo: '${userState.searchUser}\uf7ff'),
                 itemBuilder: (context, snapShot){
                   var data = snapShot.data();
                   if(data['uid']==currentUser) return Container();

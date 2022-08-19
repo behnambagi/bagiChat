@@ -48,18 +48,18 @@ mixin _$UserState on _UserState, Store {
     });
   }
 
-  late final _$_searchUserAtom =
-      Atom(name: '_UserState._searchUser', context: context);
+  late final _$searchUserAtom =
+      Atom(name: '_UserState.searchUser', context: context);
 
   @override
   String get searchUser {
-    _$_searchUserAtom.reportRead();
+    _$searchUserAtom.reportRead();
     return super.searchUser;
   }
 
   @override
   set searchUser(String value) {
-    _$_searchUserAtom.reportWrite(value, super.searchUser, () {
+    _$searchUserAtom.reportWrite(value, super.searchUser, () {
       super.searchUser = value;
     });
   }
@@ -94,6 +94,7 @@ mixin _$UserState on _UserState, Store {
     return '''
 users: ${users},
 avatarUser: ${avatarUser},
+searchUser: ${searchUser},
 people: ${people}
     ''';
   }

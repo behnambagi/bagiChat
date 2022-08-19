@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-
 import '../../../../main.dart';
 
 class UserNameScreen extends StatefulWidget {
@@ -43,8 +42,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
                         userState.avatarUser!,
                         width: 100,
                         height: 100,
-                        fit: BoxFit.fill,
-                      ),
+                        fit: BoxFit.fill),
                     )
                         : Container(
                       decoration: BoxDecoration(
@@ -54,8 +52,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
                       height: 100,
                       child: Icon(
                         Icons.camera_alt,
-                        color: Colors.grey[800],
-                      ),
+                        color: Colors.grey[800]),
                     ),
                   ),
                 ),
@@ -80,7 +77,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
                     ?.updateDisplayName(_text.text);
                 userState.createOrUpdateUserInFirestore(_text.text);
                 Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => HomePage()));
+                    CupertinoPageRoute(builder: (context) => const HomePage()));
               })
         ],
       ),
