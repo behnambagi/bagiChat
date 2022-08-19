@@ -1,5 +1,6 @@
 import 'package:bagi_chat/features/people/presentation/pages/people_screen.dart';
 import 'package:bagi_chat/features/settings/presentation/pages/setting_screen.dart';
+import 'package:bagi_chat/injection_container.dart' as di;
 import 'package:bagi_chat/state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -11,6 +12,7 @@ import 'features/chat/presentation/pages/chats_screen.dart';
 
 const USE_EMULATORS = false;
 void main() async{
+  di.init();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: GetPlatform.isAndroid?null:const FirebaseOptions(
@@ -33,7 +35,7 @@ Future<void> _connectToFirebase()async{
     host: "$localHost:4444",
     sslEnabled: false,
     persistenceEnabled: false);
-  await FirebaseAuth.instance.useEmulator("http://$localHost:7777");
+  await FirebaseAuth.instance.useAuthEmulator("http://$localHost", 7777);
 }
 
 class MyApp extends StatelessWidget {
