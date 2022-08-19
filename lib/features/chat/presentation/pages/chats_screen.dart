@@ -14,44 +14,47 @@ class ChatsScreen extends StatefulWidget {
 }
 
 class _ChatsScreenState extends State<ChatsScreen> {
-
   var chatState = ChatState();
-@override
-  initState(){
-  chatState.refreshChatsForCurrentUser();
+
+  @override
+  initState() {
+    chatState.refreshChatsForCurrentUser();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    return Observer(builder: (BuildContext context){
+    return Observer(builder: (BuildContext context) {
       return CustomScrollView(
         slivers: [
-          const CupertinoSliverNavigationBar(largeTitle: Text("Chats"),),
-          SliverList(delegate: SliverChildListDelegate(
-              chatState.messages.values.toList().map((e){
-               var user = userState.users[e['uid']];
-                var pic = user==null?null:user['pictures'];
-                return CupertinoListTile(
-                  leading: CircleAvatar(
-                    radius: 20,
-                    backgroundImage: pic!=null?NetworkImage(userState.users[e['uid']]['picture']):
-                    null,
-                    child: pic!=null?null:Text(e['friendName'][0]),
-                  ),
-                    title: Text(e['friendName']),
-                    subtitle: Text(e['msg']),
-                    onTap: ()=> Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) => ChatDetailScreen(
+          const CupertinoSliverNavigationBar(
+            largeTitle: Text("Chats"),
+          ),
+          SliverList(
+              delegate: SliverChildListDelegate(
+                  chatState.messages.values.toList().map((e) {
+            var user = userState.users[e['uid']];
+            var pic = user == null ? null : user['pictures'];
+            return CupertinoListTile(
+                leading: CircleAvatar(
+                  radius: 20,
+                  backgroundImage: pic != null
+                      ? NetworkImage(userState.users[e['uid']]['picture'])
+                      : null,
+                  child: pic != null ? null : Text(e['friendName'][0]),
+                ),
+                title: Text(e['friendName']),
+                subtitle: Text(e['msg']),
+                onTap: () => Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => ChatDetailScreen(
                               friendName: e['friendName'],
-                              friendUid: e['friendUid'],)))
-                );
-              } ).toList()
-          ))
+                              friendUid: e['friendUid'],
+                            ))));
+          }).toList()))
         ],
       );
     });
-
   }
 }
