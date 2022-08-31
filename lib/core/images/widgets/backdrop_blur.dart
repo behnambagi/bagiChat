@@ -5,7 +5,7 @@ class BackdropBlur extends StatelessWidget {
   const BackdropBlur({Key? key, required this.children, required this.image}) : super(key: key);
 
   final List<Widget> children;
-  final ImageAssets image;
+  final MediaAssets image;
 
   @override
   Widget build(BuildContext context) {

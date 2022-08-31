@@ -1,6 +1,6 @@
 part of app_enum;
 
-enum AssetEnum { assets,images, vectors, icons, pictures, fonts }
+enum AssetEnum { assets,images, vectors, icons, pictures, fonts, videos }
 
 extension AssetExtension on AssetEnum{
   String get patch {
@@ -11,6 +11,7 @@ extension AssetExtension on AssetEnum{
       case AssetEnum.vectors :return "assets/images/vectors/";
       case AssetEnum.icons :return "assets/images/icons/";
       case AssetEnum.pictures :return "assets/images/pictures/";
+      case AssetEnum.videos:return "assets/videos/";
     }
   }
 }
