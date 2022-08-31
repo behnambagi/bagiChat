@@ -17,7 +17,7 @@ class HelloScreen extends StatelessWidget {
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(50),
                   color: color),
-              child: const ShowImage(
+              child: const ShowMedia(
                 Images.whatsapp,
                 width: 150,
                 height: 150,

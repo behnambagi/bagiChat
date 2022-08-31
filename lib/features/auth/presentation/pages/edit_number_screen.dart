@@ -35,7 +35,7 @@ class _EditNumberScreenState extends State<EditNumberScreen> {
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(30),
                       color: CupertinoColors.white),
-                  child: const ShowImage(
+                  child: const ShowMedia(
                     Images.whatsapp,
                     width: 80,
                     height: 80,

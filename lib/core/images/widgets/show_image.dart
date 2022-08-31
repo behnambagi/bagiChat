@@ -1,14 +1,17 @@
 part of images;
 
-class ShowImage extends StatelessWidget {
-  const ShowImage(this.image, {Key? key, this.width, this.height,
-    this.padding, this.margin, this.color, this.colorBlendMode, this.boxShadow}) : super(key: key);
+class ShowMedia extends StatelessWidget {
+  const ShowMedia(this.image, {Key? key, this.width, this.height,
+    this.padding, this.margin, this.color,
+    this.colorBlendMode, this.boxShadow, this.fit}) : super(key: key);
 
-  final ImageAssets image;final double? width;
+  final MediaAssets image;
+  final double? width;
   final double? height;
   final Color? color;
   final  List<BoxShadow>? boxShadow;
   final BlendMode? colorBlendMode;
+  final BoxFit? fit;
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
 
@@ -21,8 +24,11 @@ class ShowImage extends StatelessWidget {
         color: Colors.transparent,
         boxShadow: boxShadow
       ),
-      child: Image.asset(image.patch,
-          color:color,colorBlendMode: colorBlendMode),
+      child: image.type==TypeFileEnum.svg?
+      SvgPicture.asset(image.patch, color: color, fit: fit??BoxFit.contain,
+        colorBlendMode: colorBlendMode??BlendMode.srcIn )
+          :Image.asset(image.patch,
+          color:color,colorBlendMode: colorBlendMode, fit: fit),
     );
   }
 }
@@ -31,7 +37,7 @@ class ImageBlur extends StatelessWidget {
   const ImageBlur(this.image, {Key? key, required this.type, this.width, this.height,
     this.padding, this.margin, this.color, this.colorBlendMode, this.boxShadow}) : super(key: key);
 
-  final ImageAssets image;
+  final MediaAssets image;
   final TypeFileEnum type;
   final double? width;
   final double? height;
