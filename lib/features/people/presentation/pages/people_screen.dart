@@ -28,37 +28,35 @@ class PeopleScreen extends StatelessWidget {
         const CupertinoSliverNavigationBar(
           largeTitle: Text("People"),
         ),
-        SliverToBoxAdapter(
-          key: UniqueKey(),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: CupertinoSearchTextField(
-              onChanged: (value) => userState.setSearchTerm(value),
-              onSubmitted: (value) => userState.setSearchTerm(value),
-            ),
-          ),
-        ),
+        // SliverToBoxAdapter(
+        //   key: UniqueKey(),
+        //   child: Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 15),
+        //     child: CupertinoSearchTextField(
+        //       onChanged: (value) => userState.setSearchTerm(value),
+        //       onSubmitted: (value) => userState.setSearchTerm(value),
+        //     ),
+        //   ),
+        // ),
         SliverFillRemaining(
           child: Observer(
             builder: (context) {
-              return FirestoreListView<Map<String, dynamic>>(
-                query:FirebaseFirestore.instance.collection('users'),
-                  //   .where('name', isGreaterThanOrEqualTo: userState.searchUser)
-                  // .where('name', isGreaterThanOrEqualTo: '${userState.searchUser}\uf7ff'),
-                itemBuilder: (context, snapShot){
-                  var data = snapShot.data();
-                  if(data['uid']==currentUser) return Container();
-                  var pic = data['pictures'];
+              return ListView.builder(
+                itemCount: userState.users.length,
+                itemBuilder: (context, index){
+                  var data = userState.users[index];
+                  if(data.uid==currentUser) return Container();
+                  var pic = data.picture;
                 return  CupertinoListTile(
                     leading: CircleAvatar(
                     radius: 20,
                     backgroundImage: pic!=null?NetworkImage(pic):
-                    null, child: pic!=null?null:Text(data['name'][0]),
+                    null, child: pic!=null?null:Text(data.name[0]),
                     ),
                     onTap: () => callChatDetailScreen(
-                    context, data['name'], data['uid']),
-                    title: Text(data['name']),
-                    subtitle: Text(data['status']),
+                    context, data.name, data.uid),
+                    title: Text(data.name),
+                    subtitle: Text(data.status),
                     );
                 }
 
