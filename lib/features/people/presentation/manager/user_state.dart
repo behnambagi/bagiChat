@@ -1,132 +1,62 @@
 import 'dart:typed_data';
-
 import 'package:bagi_chat/core/common/picture_selector.dart';
 import 'package:bagi_chat/core/utils/utils.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:bagi_chat/features/people/domain/people_domain.dart';
+import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
+import '../../../../injection_container.dart';
 
 part 'user_state.g.dart';
 
 class UserState = _UserState with _$UserState;
 
 abstract class _UserState with Store {
-
-  String? currentUser = FirebaseAuth.instance.currentUser?.uid;
-  CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+  _UserState({
+    GetConcretePeople? peopleUseCase,
+    GetConcretePerson? personUseCase,
+    PostConcreteEditProfile? editProfileUseCase,
+    PostConcreteUpdatePicture? updatePicUseCase,
+  })  : peopleUseCase = peopleUseCase ?? sl(),
+        personUseCase = personUseCase ?? sl(),
+        editProfileUseCase = editProfileUseCase ?? sl(),
+        updatePicUseCase = updatePicUseCase ?? sl();
+  GetConcretePeople peopleUseCase;
+  GetConcretePerson personUseCase;
+  PostConcreteUpdatePicture updatePicUseCase;
+  PostConcreteEditProfile editProfileUseCase;
 
   @observable
-  Map<String, dynamic> users = ObservableMap();
+  List<Person> users = ObservableList<Person>();
+
+  @action
+  void initUsersListener() {
+    peopleUseCase().toIterable().single
+        .listen((event) => {users.assignAll(event), logger.d(event)});
+  }
+
+  void createOrUpdateUserInFirestore(String userName) async {
+    var res = await editProfileUseCase(
+        EditProfParams(name: userName, picUrl: _avatarUrl));
+    if (res.isRight()) logger.d(res.toIterable().single);
+  }
 
   String? _avatarUrl;
-
-  var selector = PictureSelector();
 
   @observable
   Uint8List? avatarUser;
 
+  var selector = PictureSelector();
 
-  @observable
-  String searchUser = '';
-
-  @computed
-  List<dynamic> get people {
-    logger.d("message");
-    return users.entries
-        .where((user) => user.key != currentUser)
-        .where((user) => user.value['name']
-        .toLowerCase()
-        .startsWith(searchUser.toLowerCase()))
-        .map((e) => e.value)
-        .toList();
+  void _uploadImage() async {
+    if (avatarUser == null) return;
+    var res = await updatePicUseCase(avatarUser!);
+    if (res.isRight()) _avatarUrl = res.toIterable().single;
+    logger.d(_avatarUrl);
   }
 
-  @action
-  setSearchTerm(String value) {
-    searchUser = value;
-  }
+  void fromCamera() async =>
+      {avatarUser = await selector.fromCamera(), _uploadImage()};
 
-  @action
-  void initUsersListener() {
-    usersCollection.snapshots().listen((event) {
-      for (var doc in event.docs) {
-        var data = doc.data() as Map<String, dynamic>;
-        users[data['uid']] = {
-          'name': data['name'],
-          'phone': data['phone'],
-          'status': data['status'],
-          'picture': data['picture']
-        };
-      }
-    });
-  }
-
-  void _uploadImage(){
-    if(avatarUser==null) return;
-    final storageRef = FirebaseStorage.instance.ref();
-    var avatarUserRef = storageRef.child('$currentUser/photos/profile.jpg');
-    avatarUserRef.putData(avatarUser!).then((taskSnapShot){
-      switch(taskSnapShot.state){
-        case TaskState.paused:
-          break;
-        case TaskState.running:
-          break;
-        case TaskState.success:
-          avatarUserRef.getDownloadURL().then((value) => _avatarUrl = value);
-          break;
-        case TaskState.canceled:
-          break;
-        case TaskState.error:
-          logger.d("error");
-          break;
-      }
-
-    });
-  }
-
-  void fromCamera()async=> {
-    avatarUser = await selector.fromCamera(),
-    _uploadImage()
-  };
-  void fromGallery()async=> {
-    avatarUser = await selector.fromGallery(),
-    _uploadImage()
-  };
-
-
-  void createOrUpdateUserInFirestore(String userName) {
-    FirebaseAuth.instance.currentUser?.updateDisplayName(userName);
-    String? docId;
-    usersCollection
-      .where('uid', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
-          .limit(1)
-          .get()
-          .then(
-            (QuerySnapshot querySnapshot) {
-          if (querySnapshot.docs.isEmpty) {
-            usersCollection.add({
-              'name': userName,
-              'phone': FirebaseAuth.instance.currentUser?.phoneNumber,
-              'status': 'Available',
-              'uid': FirebaseAuth.instance.currentUser?.uid,
-              'picture': _avatarUrl
-            });
-          } else {
-            docId = querySnapshot.docs.first.id;
-          }
-          //update user info in firestore use case
-          if (docId != null) {
-            usersCollection.doc(docId).update({
-              'name': userName,
-              'phone': FirebaseAuth.instance.currentUser?.phoneNumber,
-              'status': 'Available',
-              'uid': FirebaseAuth.instance.currentUser?.uid,
-              'picture': _avatarUrl
-            });
-          }
-        },
-      ).catchError((error) {});
-  }
+  void fromGallery() async =>
+      {avatarUser = await selector.fromGallery(), _uploadImage()};
 }
-

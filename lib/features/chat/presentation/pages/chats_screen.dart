@@ -1,3 +1,4 @@
+import 'package:bagi_chat/core/utils/utils.dart';
 import 'package:bagi_chat/features/chat/presentation/manager/chat_state.dart';
 import 'package:bagi_chat/features/chat/presentation/pages/chat_details_screen.dart';
 import 'package:bagi_chat/state.dart';
@@ -36,17 +37,17 @@ class _ChatsScreenState extends State<ChatsScreen> {
           SliverList(
               delegate: SliverChildListDelegate(
                   chatState.messages.values.toList().map((e) {
-            var user = userState.users[e['uid']];
-            var pic = user == null ? null : user['pictures'];
+            var user = userState.users.firstWhere((element) => element.uid == e["friendUid"]);
+            var pic = user.picture;
             return CupertinoListTile(
                 leading: CircleAvatar(
                   radius: 20,
                   backgroundImage: pic != null
-                      ? NetworkImage(userState.users[e['uid']]['picture'])
+                      ? NetworkImage(pic)
                       : null,
-                  child: pic != null ? null : Text(e['friendName'][0]),
+                  child: pic != null ? null : Text(user.name[0]),
                 ),
-                title: Text(e['friendName']),
+                title: Text(user.name),
                 subtitle: Text(e['msg']),
                 trailing: Text(DataTime.dateToHour(
                     e['time'].toDate())),
@@ -54,8 +55,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
                     context,
                     CupertinoPageRoute(
                         builder: (context) => ChatDetailScreen(
-                              friendName: e['friendName'],
-                              friendUid: e['friendUid'],
+                              friendName: user.name,
+                              friendUid: user.uid,
                           image: pic),
                             )));
           }).toList()))

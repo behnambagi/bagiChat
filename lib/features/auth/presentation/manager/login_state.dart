@@ -1,5 +1,5 @@
 import 'package:bagi_chat/features/auth/domain/repositories/auth_repository.dart';
-import 'package:bagi_chat/features/auth/domain/use_cases/get_concreate_auth.dart';
+import 'package:bagi_chat/features/auth/domain/use_cases/auth_use_cases.dart';
 import 'package:mobx/mobx.dart';
 import '../../../../injection_container.dart';
 
@@ -21,7 +21,7 @@ PostConcreteLogin useCaseLogin;
 var credentialId = Observable<String>('');
 
   @action
-  void sendCode(String number) async {
+  sendCode(String number) async {
     var res = await useCaseSendCode(ParamsSendCode(number: number));
     if(res.isRight()) credentialId.value = res.toIterable().first;
   }
