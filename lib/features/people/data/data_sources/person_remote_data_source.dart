@@ -72,7 +72,7 @@ class PersonRemoteDataSourceImpl implements PersonRemoteDataSource {
   Future<String> postConcreteUpdatePicture(Uint8List bytes) async{
     var currentUser = auth.currentUser;
     final storageRef = storage.ref();
-    var avatarUserRef = storageRef.child('$currentUser/photos/profile.jpg');
+    var avatarUserRef = storageRef.child('${currentUser!.uid}/photos/profile.png');
     var res = await avatarUserRef.putData(bytes);
     switch(res.state){
     case TaskState.success:

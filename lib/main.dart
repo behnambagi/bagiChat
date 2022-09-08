@@ -1,3 +1,4 @@
+import 'package:bagi_chat/core/fonts/fonts.dart';
 import 'package:bagi_chat/features/people/presentation/pages/people_screen.dart';
 import 'package:bagi_chat/features/settings/presentation/pages/setting_screen.dart';
 import 'package:bagi_chat/injection_container.dart' as di;
@@ -6,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'features/auth/presentation/pages/auth_gate.dart';
 import 'features/chat/presentation/pages/chats_screen.dart';
@@ -47,6 +49,9 @@ class MyApp extends StatelessWidget {
       title: 'bagi chat',
       debugShowCheckedModeBanner: false,
       theme: CupertinoThemeData(
+        textTheme: CupertinoTextThemeData(
+          textStyle: TextStyle(fontFamily: Fonts.outfit)
+        ),
         brightness: Brightness.light,
         primaryColor: Color(0xff08C187),
       ),
@@ -70,7 +75,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
   final List list=[const ChatsScreen(),const Center(child: Text("data")),
-    PeopleScreen(),const SettingScreen()];
+    const PeopleScreen(), const SettingScreen()];
 
   @override
   Widget build(BuildContext context) {

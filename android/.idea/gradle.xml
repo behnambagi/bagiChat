@@ -12,11 +12,11 @@
           <set>
             <option value="$USER_HOME$/Documents/GitHub/bagiChat/android" />
             <option value="$USER_HOME$/Documents/GitHub/bagiChat/android/app" />
-            <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-3.4.3/android" />
-            <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions-3.3.3/android" />
+            <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-3.4.6/android" />
+            <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_functions-3.3.6/android" />
             <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/connectivity_plus-2.3.6+1/android" />
-            <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-3.6.2/android" />
-            <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.20.0/android" />
+            <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-3.7.0/android" />
+            <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.21.1/android" />
             <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_database-9.1.1/android" />
             <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_dynamic_links-4.3.4/android" />
             <option value="$USER_HOME$/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_storage-10.3.5/android" />

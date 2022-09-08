@@ -1,3 +1,3 @@
 class Fonts {
-  static const String inter = "inter";
+  static const String outfit = "Outfit";
 }
