@@ -3,14 +3,12 @@ library ui_utils;
 import 'dart:async';
 import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:async/async.dart';
 import '../../components/button_custom.dart';
-import '../../components/image_widget.dart';
 import '../../components/loading_indicator.dart';
 import '../utils.dart';
 

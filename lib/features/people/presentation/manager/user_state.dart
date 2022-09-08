@@ -1,8 +1,10 @@
 import 'dart:typed_data';
 import 'package:bagi_chat/core/common/picture_selector.dart';
+import 'package:bagi_chat/core/utils/ui/ui_util.dart';
 import 'package:bagi_chat/core/utils/utils.dart';
 import 'package:bagi_chat/features/people/domain/people_domain.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
 import '../../../../injection_container.dart';
@@ -53,16 +55,18 @@ abstract class _UserState with Store {
 
   var selector = PictureSelector();
 
-  void _uploadImage() async {
+  void _uploadImage(BuildContext context) async {
     if (avatarUser == null) return;
+    AppDialog.loading(context);
     var res = await updatePicUseCase(avatarUser!);
     if (res.isRight()) _avatarUrl = res.toIterable().single;
     logger.d(_avatarUrl);
+    AppDialog.closeDialog(context);
   }
 
-  void fromCamera() async =>
-      {avatarUser = await selector.fromCamera(), _uploadImage()};
+  void fromCamera(BuildContext context) async =>
+      {avatarUser = await selector.fromCamera(), _uploadImage(context)};
 
-  void fromGallery() async =>
-      {avatarUser = await selector.fromGallery(), _uploadImage()};
+  void fromGallery(BuildContext context) async =>
+      {avatarUser = await selector.fromGallery(), _uploadImage(context)};
 }
