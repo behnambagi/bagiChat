@@ -5,13 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutterfire_ui/firestore.dart';
-
 import '../../../../state.dart';
 
 class PeopleScreen extends StatelessWidget {
-  PeopleScreen({Key? key}) : super(key: key);
-  final currentUser = FirebaseAuth.instance.currentUser?.uid;
+  const PeopleScreen({Key? key}) : super(key: key);
 
   void callChatDetailScreen(BuildContext context, String name, String uid) {
     Navigator.push(
@@ -45,7 +42,7 @@ class PeopleScreen extends StatelessWidget {
                 itemCount: userState.users.length,
                 itemBuilder: (context, index){
                   var data = userState.users[index];
-                  if(data.uid==currentUser) return Container();
+                  if(data.uid==userState.currentUser?.uid) return Container();
                   var pic = data.picture;
                 return  CupertinoListTile(
                     leading: CircleAvatar(

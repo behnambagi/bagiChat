@@ -1,51 +1,22 @@
+import 'package:bagi_chat/core/fonts/fonts.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Font {
-  static const inter = "inter";
-}
-
 class AppTheme {
-  static ThemeData get lTheme => ThemeData(
-      // elevatedButtonTheme: ElevatedButtonThemeData(
-      //     style: ElevatedButton.styleFrom(
-      //       primary: const Color(0xffFFD9C0),
-      //     ).merge(
-      //       ButtonStyle(elevation: MaterialStateProperty.all(0)),
-      //     )),
-      tabBarTheme: const TabBarTheme(
-        labelColor: Colors.white,
+ static CupertinoThemeData get themeLight =>const CupertinoThemeData(
+   textTheme: CupertinoTextThemeData(
+       textStyle: TextStyle(fontFamily: Fonts.outfit)
+   ),
+   brightness: Brightness.light,
+   primaryColor: Color(0xff08C187),
+ );
 
-      ),
-      appBarTheme: const AppBarTheme(backgroundColor: Color(0xff5FD068)),
-      primaryColor: const Color(0xff5FD068),
-      fontFamily: Font.inter,
-      brightness: Brightness.light,
-      scaffoldBackgroundColor: Colors.white,
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: Color(0xff5FD068)));
+ static TextStyle get titleStyle => TextStyle(
+     color: const Color(0xFF08C187).
+     withOpacity(0.7), fontSize: 17);
 
-  static ThemeData get dTheme => ThemeData(
-      // elevatedButtonTheme: ElevatedButtonThemeData(
-      //     style: ElevatedButton.styleFrom(
-      //       primary: const Color(0xffFFD9C0),
-      //     ).merge(
-      //       ButtonStyle(elevation: MaterialStateProperty.all(0)),
-      //     )),
-      tabBarTheme: const TabBarTheme(
-        labelColor: Colors.white,
-      ),
+ static TextStyle get inputTextStyle => TextStyle(
+     color: CupertinoColors.systemGrey.withOpacity(0.7),
+     fontSize: 17);
 
-      primaryColor: const Color(0xff5FD068),
-      fontFamily: Font.inter,
-      brightness: Brightness.dark,
-      scaffoldBackgroundColor: Colors.black87,
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: Color(0xff5FD068)));
-
-// you can add other custom theme in this class like  light theme, dark theme ,etc.
-
-// example :
-// static ThemeData get light => ThemeData();
-
-// static ThemeData get dark => ThemeData();
 }
