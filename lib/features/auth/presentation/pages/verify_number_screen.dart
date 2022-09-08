@@ -40,18 +40,28 @@ class _VerifyNumberScreenState extends State<VerifyNumberScreen> {
           Center(child: Text("OTP Verification",
                 style: AppTheme.titleStyle),
           ),
+          const SizedBox(height: 20,),
           const Text("Enter OTP sent to", style: TextStyle(
                   color: CupertinoColors.secondaryLabel, fontSize: 20)),
+          const SizedBox(height: 20,),
+
           Text(phoneNumber),
-          CupertinoTextField(
-              onChanged: (value) async {
-                if (value.length == 6) _verifyNumber(value, context);
-              },
-              textAlign: TextAlign.center,
-              style: const TextStyle(letterSpacing: 30, fontSize: 30),
-              maxLength: 6,
-              controller: _textEditingController,
-              keyboardType: TextInputType.number),
+          const SizedBox(height: 20,),
+
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            child: CupertinoTextField(
+                onChanged: (value) async {
+                  if (value.length == 6) _verifyNumber(value, context);
+                },
+                textAlign: TextAlign.center,
+                style: const TextStyle(letterSpacing: 30, fontSize: 30),
+                maxLength: 6,
+                controller: _textEditingController,
+                keyboardType: TextInputType.number),
+          ),
+          const SizedBox(height: 10,),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -76,7 +86,7 @@ class _VerifyNumberScreenState extends State<VerifyNumberScreen> {
             child: Text("OTP Verification",
                 style: TextStyle(
                     color: const Color(0xFF08C187).withOpacity(0.7),
-                    fontSize: 30)),
+                    fontSize: 33)),
           ),
           const Text("The code used is invalid!"),
           CupertinoButton(
