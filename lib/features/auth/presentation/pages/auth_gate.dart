@@ -1,4 +1,4 @@
-import 'package:bagi_chat/features/auth/presentation/pages/hello_screen.dart';
+import 'package:bagi_chat/features/auth/presentation/pages/edit_number_screen.dart';
 import 'package:bagi_chat/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +16,7 @@ class AuthGate extends StatelessWidget {
             Center(child: Text("loading ..."),));
           }
           if(!snapShot.hasData){
-          return const HelloScreen();
+          return const EditNumberScreen();
         }
         return const HomePage();
 

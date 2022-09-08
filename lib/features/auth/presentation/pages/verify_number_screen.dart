@@ -1,3 +1,4 @@
+import 'package:bagi_chat/core/config/themes/app_theme.dart';
 import 'package:bagi_chat/features/auth/presentation/pages/user_name_screen.dart';
 import 'package:bagi_chat/state.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,9 +38,7 @@ class _VerifyNumberScreenState extends State<VerifyNumberScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Center(child: Text("OTP Verification",
-                style: TextStyle(
-                    color: const Color(0xFF08C187).withOpacity(0.7),
-                    fontSize: 30)),
+                style: AppTheme.titleStyle),
           ),
           const Text("Enter OTP sent to", style: TextStyle(
                   color: CupertinoColors.secondaryLabel, fontSize: 20)),

@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:bagi_chat/core/common/picture_selector.dart';
 import 'package:bagi_chat/core/utils/utils.dart';
 import 'package:bagi_chat/features/people/domain/people_domain.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
 import '../../../../injection_container.dart';
@@ -27,6 +28,11 @@ abstract class _UserState with Store {
 
   @observable
   List<Person> users = ObservableList<Person>();
+
+  var myUid = FirebaseAuth.instance.currentUser?.uid;
+
+  Person? get currentUser => List<Person?>.from(users).firstWhere(
+          (element) => element?.uid==myUid, orElse: ()=>null);
 
   @action
   void initUsersListener() {

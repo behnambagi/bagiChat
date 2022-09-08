@@ -1,6 +1,7 @@
+import 'package:bagi_chat/core/fonts/fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/context_extensions.dart';
-import '../config/themes/app_theme.dart';
 
 class ButtonWidget extends StatelessWidget {
   const ButtonWidget({Key? key, required this.title, required this.color, required this.onTap})
@@ -30,7 +31,7 @@ class ButtonWidget extends StatelessWidget {
         child: Center(
           child: Text(title,
             style: const TextStyle(
-                color: Colors.white, fontFamily: Font.inter, fontSize: 20),
+                color: Colors.white, fontFamily: Fonts.outfit, fontSize: 20),
           ),
         ),
         // box-shadow: 0px 4px 4px 0px #00000040;

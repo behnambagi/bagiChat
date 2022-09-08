@@ -1,7 +1,9 @@
+import 'package:bagi_chat/core/config/themes/app_theme.dart';
 import 'package:bagi_chat/features/auth/presentation/pages/select_country_screen.dart';
 import 'package:bagi_chat/features/auth/presentation/pages/verify_number_screen.dart';
-import 'package:cupertino_list_tile/cupertino_list_tile.dart';
+import 'package:bagi_chat/features/settings/presentation/widgets/ios_list_tile.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/images/images.dart';
 
@@ -14,7 +16,7 @@ class EditNumberScreen extends StatefulWidget {
 
 class _EditNumberScreenState extends State<EditNumberScreen> {
   final _enterPhoneNumber = TextEditingController();
-  Map<String, dynamic> data = {"name": "Portugal", "code": "+98"};
+  Map<String, dynamic> data = {"name": "Iran", "code": "+98"};
   Map<String, dynamic>? dataResult;
 
   @override
@@ -25,76 +27,87 @@ class _EditNumberScreenState extends State<EditNumberScreen> {
         previousPageTitle: "Back",
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(30),
-                      color: CupertinoColors.white),
-                  child: const ShowMedia(
-                    Images.whatsapp,
-                    width: 80,
-                    height: 80,
-                    padding: EdgeInsets.all(2),
-                  )),
-              Text("Verification • one step",
-                  style: TextStyle(
-                      color: const Color(0xFF08C187).withOpacity(0.7), fontSize: 25))
-            ],
-          ),
-          Text("Enter your phone number",
-              style: TextStyle(
-                  color: CupertinoColors.systemGrey.withOpacity(0.7),
-                  fontSize: 30)),
-          CupertinoListTile(
-            onTap: () async {
-              dataResult = await Navigator.push(context,
-                  CupertinoPageRoute(builder: (context) => const SelectCountryScreen()));
-              setState(() {
-                if (dataResult != null) data = dataResult!;
-              });
-            },
-            title:
-            Text(data['name'], style: const TextStyle(color: Color(0xFF08C187))),
-          ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
+            padding: const EdgeInsets.symmetric(horizontal: 18.0),
+            child: Wrap(
+              spacing: 5,
+              runSpacing: 17,
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Text(data['code'],
-                    style: const TextStyle(
-                        fontSize: 25, color: CupertinoColors.secondaryLabel)),
-                Expanded(
-                  child: CupertinoTextField(
-                    placeholder: "Enter your phone number",
-                    controller: _enterPhoneNumber,
-                    keyboardType: TextInputType.number,
-                    style: const TextStyle(
-                        fontSize: 25, color: CupertinoColors.secondaryLabel),
+                Row(
+                  children: [
+                    Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(30),
+                            color: CupertinoColors.white),
+                        child: const ShowMedia(
+                          Images.whatsapp,
+                          width: 80, height: 80)),
+                    Text("Verification • one step",
+                        style: AppTheme.titleStyle)
+                  ],
+                ),
+                IosListTile(
+                  noPadding: true,
+                  onTap: () async {
+                    dataResult = await Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) => const SelectCountryScreen()));
+                    setState(() {
+                      if (dataResult != null) data = dataResult!;
+                    });
+                  },
+                  leading: const Icon(Icons.language),
+                  title:Text(data['name'], style: const TextStyle(color: Color(0xFF08C187))
                   ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text("Enter your phone number",
+                      style: AppTheme.inputTextStyle),
+                ),
+                Row(
+                  children: [
+                    Text(data['code'],
+                        style: const TextStyle(
+                            fontSize: 25, color: CupertinoColors.secondaryLabel)),
+                    const SizedBox(width: 7),
+                    Expanded(
+                      child: CupertinoTextField(
+                        placeholder: "Enter your phone number",
+                        controller: _enterPhoneNumber,
+                        padding: const EdgeInsets.all(15),
+                        keyboardType: TextInputType.number,
+                        style: const TextStyle(
+                            fontSize: 15, color: CupertinoColors.secondaryLabel),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  width: double.infinity,
+                  child: Text("You will receive an activation code in short time",
+                      style: TextStyle(color: CupertinoColors.systemGrey, fontSize: 15)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 40),
+                  child: CupertinoButton.filled(
+                      child: const Text("Request code"),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => VerifyNumberScreen(
+                                  number: data['code']! + _enterPhoneNumber.text,
+                                )));
+                      }),
                 )
               ],
             ),
           ),
-          const Text("You will receive an activation code in short time",
-              style: TextStyle(color: CupertinoColors.systemGrey, fontSize: 15)),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 40),
-            child: CupertinoButton.filled(
-                child: const Text("Request code"),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => VerifyNumberScreen(
-                            number: data['code']! + _enterPhoneNumber.text,
-                          )));
-                }),
-          )
         ],
       ),
     );
