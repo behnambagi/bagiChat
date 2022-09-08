@@ -57,7 +57,7 @@ class _UserNameScreenState extends State<UserNameScreen> {
                   ),
                 ),
               ),
-              onPressed: () => userState.fromCamera()),
+              onPressed: () => userState.fromCamera(context)),
           const Text("Enter your name"),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 55),

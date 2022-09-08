@@ -4,7 +4,6 @@ import 'package:bagi_chat/features/auth/presentation/pages/verify_number_screen.
 import 'package:bagi_chat/features/settings/presentation/widgets/ios_list_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../core/images/images.dart';
 
 class EditNumberScreen extends StatefulWidget {
@@ -44,37 +43,37 @@ class _EditNumberScreenState extends State<EditNumberScreen> {
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(30),
                             color: CupertinoColors.white),
-                        child: const ShowMedia(
-                          Images.whatsapp,
-                          width: 80, height: 80)),
-                    Text("Verification • one step",
-                        style: AppTheme.titleStyle)
+                        child: const ShowMedia(Images.whatsapp,
+                            width: 80, height: 80)),
+                    Text("Verification • one step", style: AppTheme.titleStyle)
                   ],
                 ),
                 IosListTile(
                   noPadding: true,
                   onTap: () async {
-                    dataResult = await Navigator.push(context,
-                        CupertinoPageRoute(builder: (context) => const SelectCountryScreen()));
+                    dataResult = await Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => const SelectCountryScreen()));
                     setState(() {
                       if (dataResult != null) data = dataResult!;
                     });
                   },
                   leading: const Icon(Icons.language),
-                  title:Text(data['name'], style: const TextStyle(color: Color(0xFF08C187))
-                  ),
+                  title: Text(data['name'],
+                      style: const TextStyle(color: Color(0xFF08C187))),
                 ),
                 SizedBox(
                   width: double.infinity,
                   child: Text("Enter your phone number",
-                      style: AppTheme.inputTextStyle),
+                      style: AppTheme.titleStyle.copyWith(color: Colors.black)),
                 ),
                 Row(
                   children: [
                     Text(data['code'],
                         style: const TextStyle(
-                            fontSize: 25, color: CupertinoColors.secondaryLabel)),
-                    const SizedBox(width: 7),
+                            fontSize: 20, color: CupertinoColors.black)),
+                    const SizedBox(width: 15),
                     Expanded(
                       child: CupertinoTextField(
                         placeholder: "Enter your phone number",
@@ -82,15 +81,21 @@ class _EditNumberScreenState extends State<EditNumberScreen> {
                         padding: const EdgeInsets.all(15),
                         keyboardType: TextInputType.number,
                         style: const TextStyle(
-                            fontSize: 15, color: CupertinoColors.secondaryLabel),
+                            letterSpacing: 2,
+                            fontSize: 15,
+                            color: CupertinoColors.black),
                       ),
                     )
                   ],
                 ),
                 const SizedBox(
                   width: double.infinity,
-                  child: Text("You will receive an activation code in short time",
-                      style: TextStyle(color: CupertinoColors.systemGrey, fontSize: 15)),
+                  child:
+                      Text("You will receive an activation code in short time",
+                          style: TextStyle(
+                            color: CupertinoColors.systemGrey,
+                            fontSize: 15,
+                          )),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 40),

@@ -41,14 +41,19 @@ class _SelectCountryScreenState extends State<SelectCountryScreen> {
             largeTitle: Text("Select Country"),
             previousPageTitle: "Edit Number",
           ),
+          const SliverToBoxAdapter(child: SizedBox(height: 20,),),
           SliverToBoxAdapter(
-            child: CupertinoSearchTextField(
-              onChanged: (value) {
-                setState(() {
-                  searchValue = value;
-                });
-              },
-              controller: _searchController,
+            child: Container(
+              height: 40,
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: CupertinoSearchTextField(
+                onChanged: (value) {
+                  setState(() {
+                    searchValue = value;
+                  });
+                },
+                controller: _searchController,
+              ),
             ),
           ),
 
@@ -60,6 +65,7 @@ class _SelectCountryScreenState extends State<SelectCountryScreen> {
                 .toLowerCase()
                 .contains(searchValue.toLowerCase()))
                 .map((e) => CupertinoListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 15),
               onTap: () {
                 print(e['name']);
                 Navigator.pop(context,
